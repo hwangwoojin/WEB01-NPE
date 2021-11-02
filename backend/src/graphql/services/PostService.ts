@@ -1,6 +1,8 @@
 import { Like } from "typeorm";
 import { PostAnswer } from "../../entities/PostAnswer";
 import { PostQuestion } from "../../entities/PostQuestion";
+import { PostQuestionHasTag } from "../../entities/PostQuestionHasTag";
+import { Tag } from "../../entities/Tag";
 import { User } from "../../entities/User";
 
 export default class PostService {
@@ -39,8 +41,25 @@ export default class PostService {
   }
 
   public static async findOneQuestionById(id): Promise<PostQuestion> {
-    const question = await PostQuestion.findOneOrFail({ id: id });
+    const question = await PostQuestion.findOne({ id: id });
+    const tags = await PostQuestion.createQueryBuilder("Question")
+      .where({ id: id })
+      // .leftJoinAndSelect(
+      //   "Question.id",
+      //   "post_question_has_tag.post_question_id3"
+      // )
+      .getMany();
+    console.log(tags);
 
     return question;
   }
+
+  // public static async findAllTagByQuesionId(questionId): Promise<Tag[]> {
+  //   const tags = await PostQuestion.createQueryBuilder("Question")
+  //     .where({ postQuestionId: questionId })
+  //     .leftJoinAndSelect("Question.id", "post_question_has_tag")
+  //     .getMany();
+  //   console.log(tags);
+  //   return [];
+  // }
 }

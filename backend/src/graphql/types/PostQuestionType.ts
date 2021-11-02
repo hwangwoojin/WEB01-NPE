@@ -8,6 +8,7 @@ import {
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
 import PostAnswerType from "./PostAnswerType";
+import TagType from "./TagType";
 import UserType from "./UserType";
 
 export default new GraphQLObjectType({
@@ -58,6 +59,12 @@ export default new GraphQLObjectType({
         return user;
       },
     },
+    // tag: {
+    //   type: new GraphQLList(TagType),
+    //   resolve: async (question) => {
+    //     return [];
+    //   },
+    // },
     question_answer: {
       type: new GraphQLList(PostAnswerType),
       resolve: async (question) => {
